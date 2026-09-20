@@ -1,0 +1,22 @@
+{
+  "test_cases": [
+    {
+      "id": 1,
+      "time_out": 2,
+      "input": "40\n10\n5\n0\n",
+      "output": "Enter distance, age, luggage weight, and weekend flag: Travel Cost: Rs. 100\n"
+    },
+    {
+      "id": 2,
+      "time_out": 2,
+      "input": "100\n30\n15\n1\n",
+      "output": "Enter distance, age, luggage weight, and weekend flag: Travel Cost: Rs. 600\n"
+    },
+    {
+      "id": 3,
+      "time_out": 2,
+      "input": "200\n65\n25\n1\n",
+      "output": "Enter distance, age, luggage weight, and weekend flag: Travel Cost: Rs. 910\n"
+    }
+  ]
+}

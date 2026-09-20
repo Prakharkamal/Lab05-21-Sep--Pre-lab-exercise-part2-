@@ -1,0 +1,139 @@
+//RENAME THIS FILE TO <BITS ID>.c
+#include <stdio.h>
+
+/*
+ * Calculates the final travel cost.
+ *
+ * Parameters:
+ *   distance : Travel distance in kilometres (1-1000).
+ *   age      : Passenger's age (1-100).
+ *   luggage  : Luggage weight in kilograms (0-50).
+ *   weekend  : 1 for a weekend, 0 for a weekday.
+ *
+ * Apply the following steps IN ORDER:
+ *
+ * 1. Calculate the base fare:
+ *
+ *      - Distance up to 50 km:
+ *          Rs. 5 per kilometre.
+ *
+ *      - Distance from 51 to 150 km:
+ *          Rs. 250 for the first 50 km,
+ *          plus Rs. 4 per kilometre beyond 50 km.
+ *          Example: For 52 km, the fare is
+ *          250 + (52 - 50) * 4 = Rs. 258.
+ *
+ *      - Distance above 150 km:
+ *          Rs. 650 for the first 150 km,
+ *          plus Rs. 3 per kilometre beyond 150 km.
+ *          Example: For 152 km, the fare is
+ *          650 + (152 - 150) * 3 = Rs. 656.
+ *
+ * 2. Apply an age discount to the base fare:
+ *
+ *      - Age below 12:       50% discount.
+ *      - Age from 12 to 17:  20% discount.
+ *      - Age from 18 to 59:  No discount.
+ *      - Age 60 or above:    30% discount.
+ *
+ *    Use integer arithmetic:
+ *      discount = base_fare * discount_percentage / 100
+ *      discounted_fare = base_fare - discount
+ *
+ * 3. Add a luggage charge:
+ *
+ *      - Up to 10 kg:         No charge.
+ *      - From 11 to 20 kg:    Rs. 100.
+ *      - From 21 to 30 kg:    Rs. 250.
+ *      - Above 30 kg:         Rs. 500.
+ *
+ * 4. If it is a weekend, add a surcharge based on distance:
+ *
+ *      - Distance up to 100 km: Rs. 50.
+ *      - Distance above 100 km: Rs. 100.
+ *
+ * 5. If the final cost is below Rs. 100, set it to Rs. 100.
+ *
+ * 6. Return the final cost.
+ *
+ * Examples:
+ *   calculate_trip_cost(40, 10, 5, 0)   -> 100
+ *   calculate_trip_cost(100, 30, 15, 1) -> 600
+ *   calculate_trip_cost(200, 65, 25, 1) -> 910
+ */
+int calculate_trip_cost(int distance, int age, int luggage, int weekend) {
+    int fare1,fare2,discount,fare3,fare4;
+    {
+    if (distance <= 50)
+        fare1 = 5 * distance;
+    else if(distance > 50 && distance <= 150)
+        fare1 = 250 + ((distance - 50) * 4);
+    else if(distance > 150)
+        fare1 = 650 + ((distance - 150) * 3);
+    }
+    {
+        if(age < 12){
+            discount = (fare1 / 10) * 5;
+            fare2 = fare1 - discount;
+        }
+        else if(age >= 12 && age <18){
+            discount = (fare1 / 10) * 2;
+            fare2 = fare2 - discount;
+        }
+        else if (age >= 18 && age <60){
+            discount = 0;
+            fare2 = fare1;
+        }
+        else if (age >= 60){
+            discount = (fare1 / 10 ) * 3;
+            fare2 = fare1 - discount;
+        }
+    }
+    {
+        if(luggage <=10){
+        fare3 = fare2;
+        }
+        else if(luggage > 10 && luggage <= 20){
+        fare3 = fare2 + 100;
+        }
+        else if(luggage > 20 && luggage <= 30){
+            fare3 = fare2 + 250;
+        }
+        else if(luggage > 30){
+            fare3 = fare2 + 500;
+        }
+    }
+    {
+        if(weekend == 1){
+            {
+                if(distance <= 100)
+                fare4 = fare3 + 50;
+                else
+                fare4 = fare3 + 100;
+            }
+
+        }
+        else{
+            fare4 = fare3;
+        }
+    }
+    {
+        if(fare4 <= 100)
+        fare4 = 100;
+    }
+    return fare4;
+}
+
+int main() {
+    int distance, age, luggage, weekend;
+    int travel_cost;
+
+    printf("Enter distance, age, luggage weight, and weekend flag: ");
+    scanf("%d %d %d %d", &distance, &age, &luggage, &weekend);
+
+    travel_cost = calculate_trip_cost(distance, age, luggage, weekend);
+
+    printf("Travel Cost: Rs. %d\n", travel_cost);
+
+    return 0;
+}
